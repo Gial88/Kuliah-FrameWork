@@ -15,6 +15,6 @@ class DepedencyCreateTest extends TestCase
 
         self::assertEquals("Foo", $foo->foo());
         self::assertEquals("Foo", $foo2->foo());
-        self::assertNotSame($foo,$foo2);
+        self::assertSame($foo,$foo2);
     }
 }
