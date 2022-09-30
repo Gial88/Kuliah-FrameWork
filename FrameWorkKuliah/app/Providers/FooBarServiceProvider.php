@@ -7,8 +7,9 @@ use App\Data\Foo;
 use App\Data\Bar;
 use App\Service\HelloService;
 use App\Service\HelloServiceIndonesia;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class FooBarServiceProvider extends ServiceProvider
+class FooBarServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public array $singleton = [
         HelloService::class => HelloServiceIndonesia::class
@@ -25,7 +26,9 @@ class FooBarServiceProvider extends ServiceProvider
             return new Bar($app->make(Foo::class));
         });
     }
-
+    public function provides(): array {
+        return [HelloService::class, Foo::class, Bar::class];
+    }
     /**
      * Bootstrap services.
      *
