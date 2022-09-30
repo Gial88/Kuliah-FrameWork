@@ -6,15 +6,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class Routingtest extends TestCase
+class OptionalRouteParameterTest extends TestCase
 {
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function testRouting()
+    public function testOptionalRouteParameter()
     {
-        $this->get('/pzn')->assertSeeText("Hello Programmer Zaman Now");
+        $this->get('/users/12345')->assertSeeText("Users : 12345");
+        $this->get('/users/')->assertSeeText("Users : 404");
     }
 }
