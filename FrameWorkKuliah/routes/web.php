@@ -84,10 +84,71 @@ Route::post('/input/filter/merge',[\App\Http\Controllers\InputController::class,
 Route::post('/file/upload',[\App\Http\Controllers\InputController::class, 'upload']);
 Route::get('/response/hello',[\App\Http\Controllers\ResponseController::class, 'response']); 
 Route::get('/response/header',[\App\Http\Controllers\ResponseController::class, 'header']); 
-Route::get('/response/type/view',[\App\Http\Controllers\ResponseController::class, 'responseView']); 
-Route::get('/response/type/json',[\App\Http\Controllers\ResponseController::class, 'responseJson']); 
-Route::get('/response/type/file',[\App\Http\Controllers\ResponseController::class, 'responseFile']); 
-Route::get('/response/type/download',[\App\Http\Controllers\ResponseController::class, 'responseDownload']); 
-Route::get('/cookie/set',[\App\Http\Controllers\CookieController::class, 'createCookie']); 
-Route::get('/cookie/get',[\App\Http\Controllers\CookieController::class, 'getCookie']);  
-Route::get('/cookie/clear',[\App\Http\Controllers\CookieController::class, 'clearCookie']);  
+// Route::get('/cookie/set',[\App\Http\Controllers\CookieController::class, 'createCookie']); 
+// Route::get('/cookie/get',[\App\Http\Controllers\CookieController::class, 'getCookie']);  
+// Route::get('/cookie/clear',[\App\Http\Controllers\CookieController::class, 'clearCookie']);  
+Route::get('/redirect/to',[\App\Http\Controllers\RedirectController::class, 'redirectTo']);  
+Route::get('/redirect/from',[\App\Http\Controllers\RedirectController::class, 'redirectFrom']);  
+Route::get('/redirect/name',[\App\Http\Controllers\RedirectController::class, 'redirectName']);  
+Route::get('/redirect/name/{name}',[\App\Http\Controllers\RedirectController::class, 'redirectHello'])
+    ->name('redirect-hello');  
+Route::get('/redirect/action',[\App\Http\Controllers\RedirectController::class, 'redirectAction']);  
+Route::get('/redirect/pzn',[\App\Http\Controllers\RedirectController::class, 'redirectAway']); 
+// Route::get('/middleware/api', function(){
+//     return "OK";
+// })->middleware(['Test:PZN,401']);
+Route::post('/file/upload', [\App\Http\Controllers\InputController::class, 'upload'])
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+Route::get('/form',[\App\Http\Controllers\InputController::class,'form']);
+Route::post('/form',[\App\Http\Controllers\InputController::class,'submitForm']);
+Route::prefix('/response/type')->group(function(){
+    Route::get('/view',[\App\Http\Controllers\ResponseController::class, 'responseView']); 
+    Route::get('/json',[\App\Http\Controllers\ResponseController::class, 'responseJson']); 
+    Route::get('/file',[\App\Http\Controllers\ResponseController::class, 'responseFile']); 
+    Route::get('/download',[\App\Http\Controllers\ResponseController::class, 'responseDownload']); 
+});
+Route::middleware(['Test:PZN,401'])->group(function(){
+    Route::get('/middleware/api', function(){
+        return "OK";
+    });
+});
+Route::controller(\App\Http\Controllers\CookieController::class)->group(function (){
+    Route::get('/cookie/set',[\App\Http\Controllers\CookieController::class, 'createCookie']); 
+    Route::get('/cookie/get',[\App\Http\Controllers\CookieController::class, 'getCookie']);  
+    Route::get('/cookie/clear',[\App\Http\Controllers\CookieController::class, 'clearCookie']); 
+});
+Route::middleware(['Test:PZN,401'])->prefix('/middleware')->group(function(){
+    Route::get('/api', function(){
+        return "OK";
+    });
+});
+Route::get('/url/current', function(){
+    return \Illuminate\Support\Facades\URL::full();
+}); 
+Route::get('/url/named', function(){
+    return route('redirect-hello', ['name' => 'Eko']);
+});
+Route::get('/url/action', function (){
+    return action([\App\Http\Controllers\InputController::class,'form'], []);
+});
+Route::get('/session/create',[\App\Http\Controllers\SessionController::class, 'createSession']);
+Route::get('/session/get',[\App\Http\Controllers\SessionController::class, 'getSession']);
+Route::get('/error/sample', function(){
+    throw new Exception("Sample Error");
+});
+Route::get('/error/manual', function(){
+    report(new Exception("Sample Error"));
+    return "OK";
+});
+Route::get('/error/validation', function(){
+    throw new \App\Exceptions\ValidationException("Validation Error");
+});
+Route::get('/abort/400', function(){
+    abort(400);
+});
+Route::get('/abort/401', function(){
+    abort(401);
+});
+Route::get('/abort/500', function(){
+    abort(500);
+});

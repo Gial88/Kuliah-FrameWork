@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class InputController extends Controller
 {
@@ -52,5 +53,14 @@ class InputController extends Controller
         $request->merge(['admin' => false]);
         $user = $request->input();
         return json_encode($user);
+    }
+
+    public function form(): Response{
+        return response()->view('form');
+    }
+
+    public function submitForm(Request $request): Response{
+        $nama = $request->input('name');
+        return response()->view('Hello', ['name' => $nama]);
     }
 }
