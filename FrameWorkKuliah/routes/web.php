@@ -72,8 +72,22 @@ Route::get('/produk-redirect/{id}',function($id){
 });
 
 Route::get('/controller/hello',[\App\Http\Controllers\HelloController::class, 'hello']);    
-// Route::get('/controller/hello/{name}',[\App\Http\Controllers\HelloController::class, 'hello']);    
+Route::get('/controller/hello/{name}',[\App\Http\Controllers\HelloController::class, 'hello']);    
 Route::get('/input/hello',[\App\Http\Controllers\InputController::class, 'hello']); 
 Route::post('/input/hello',[\App\Http\Controllers\InputController::class, 'hello']); 
 Route::post('/input/hello/input',[\App\Http\Controllers\InputController::class, 'helloInput']); 
 Route::post('/input/hello/array',[\App\Http\Controllers\InputController::class, 'arrayInput']); 
+Route::post('/input/type',[\App\Http\Controllers\InputController::class, 'inputType']);
+Route::post('/input/filter/only',[\App\Http\Controllers\InputController::class, 'filterOnly']);
+Route::post('/input/filter/expect',[\App\Http\Controllers\InputController::class, 'filterExpect']);
+Route::post('/input/filter/merge',[\App\Http\Controllers\InputController::class, 'filterMerge']);
+Route::post('/file/upload',[\App\Http\Controllers\InputController::class, 'upload']);
+Route::get('/response/hello',[\App\Http\Controllers\ResponseController::class, 'response']); 
+Route::get('/response/header',[\App\Http\Controllers\ResponseController::class, 'header']); 
+Route::get('/response/type/view',[\App\Http\Controllers\ResponseController::class, 'responseView']); 
+Route::get('/response/type/json',[\App\Http\Controllers\ResponseController::class, 'responseJson']); 
+Route::get('/response/type/file',[\App\Http\Controllers\ResponseController::class, 'responseFile']); 
+Route::get('/response/type/download',[\App\Http\Controllers\ResponseController::class, 'responseDownload']); 
+Route::get('/cookie/set',[\App\Http\Controllers\CookieController::class, 'createCookie']); 
+Route::get('/cookie/get',[\App\Http\Controllers\CookieController::class, 'getCookie']);  
+Route::get('/cookie/clear',[\App\Http\Controllers\CookieController::class, 'clearCookie']);  
