@@ -34,4 +34,5 @@
     @php $i++ @endphp
     @endforeach
 </table>
+{{$menu->links()}}
 @endsection

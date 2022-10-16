@@ -10,7 +10,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-            $menu = DB::table("menus")->paginate(3);
+            $menu = DB::table("menus")->paginate(4);
             return view('index',['menu' => $menu]);
     }
 
